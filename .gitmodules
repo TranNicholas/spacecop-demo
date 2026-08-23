@@ -1,0 +1,33 @@
+[submodule "sample_defs/apps/cs"]
+	path = sample_defs/apps/cs
+	url = https://github.com/nasa/CS.git
+[submodule "sample_defs/apps/ds"]
+	path = sample_defs/apps/ds
+	url = https://github.com/nasa/DS.git
+[submodule "sample_defs/apps/cfdp"]
+	path = sample_defs/apps/cfdp
+	url = https://github.com/rtinney1/OpenC3_Cosmos_cFS_CFDP.git
+[submodule "sample_defs/apps/fm"]
+	path = sample_defs/apps/fm
+	url = https://github.com/nasa/FM.git
+[submodule "sample_defs/apps/hs"]
+	path = sample_defs/apps/hs
+	url = https://github.com/nasa/HS.git
+[submodule "sample_defs/apps/hk"]
+	path = sample_defs/apps/hk
+	url = https://github.com/nasa/HK.git
+[submodule "sample_defs/apps/lc"]
+	path = sample_defs/apps/lc
+	url = https://github.com/nasa/LC.git
+[submodule "sample_defs/apps/md"]
+	path = sample_defs/apps/md
+	url = https://github.com/nasa/MD.git
+[submodule "sample_defs/apps/mm"]
+	path = sample_defs/apps/mm
+	url = https://github.com/nasa/MM.git
+[submodule "sample_defs/apps/sc"]
+	path = sample_defs/apps/sc
+	url = https://github.com/nasa/SC.git
+[submodule "sample_defs/apps/sch"]
+	path = sample_defs/apps/sch
+	url = https://github.com/nasa/SCH.git
