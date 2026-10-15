@@ -182,6 +182,7 @@ class CosmosParser:
     
     def _parse_item(self, line):
         """Parse APPEND_ITEM, APPEND_ID_ITEM, or ITEM"""
+        is_id_item = line.startswith('APPEND_ID_ITEM')
         line = re.sub(r'^APPEND_ID_ITEM\s+|^APPEND_ITEM\s+|^ITEM\s+', '', line)
         parts = self._split_preserve_quotes(line)
         
@@ -195,6 +196,7 @@ class CosmosParser:
             'type': parts[3] if len(parts) > 3 else 'UINT',
             'description': self._unquote(parts[4]) if len(parts) > 4 else '',
             'endian': parts[5] if len(parts) > 5 else None,
+            'default': parts[3] if is_id_item and len(parts) > 3 else None,
         }
         
         return item
@@ -491,7 +493,7 @@ function to_hex_string(data: string): string
         {
         if (hex != "")
             hex = fmt("%s ", hex);
-        hex = fmt("%s%02X", hex, bytestring_to_count(data[i]));
+        hex = fmt("%s%02x", hex, bytestring_to_count(data[i]));
         i = i + 1;
         }
     
@@ -516,7 +518,7 @@ function parse_command_packet(payload: string): CommandInfo
     local data_length = extract_uint16_be(payload, 4);
     
     info$stream_id = stream_id;
-    info$stream_id_hex = fmt("0x%04X", stream_id);
+    info$stream_id_hex = fmt("0x%04x", stream_id);
     info$sequence_flags = (sequence / 16384) % 4;  # Right shift 14 bits
     info$packet_sequence = sequence % 16384;        # Lower 14 bits
     info$data_length = data_length;
@@ -545,7 +547,7 @@ function parse_command_packet(payload: string): CommandInfo
             }
         else
             {
-            info$error = fmt("Unknown command: StreamID=0x%04X, FC=%d", stream_id, fc);
+            info$error = fmt("Unknown command: StreamID=0x%04x, FC=%d", stream_id, fc);
             }
         }
     else
@@ -574,7 +576,7 @@ function parse_telemetry_packet(payload: string): TelemetryInfo
     local data_length = extract_uint16_be(payload, 4);
     
     info$stream_id = stream_id;
-    info$stream_id_hex = fmt("0x%04X", stream_id);
+    info$stream_id_hex = fmt("0x%04x", stream_id);
     info$sequence_flags = (sequence / 16384) % 4;
     info$packet_sequence = sequence % 16384;
     info$data_length = data_length;
@@ -591,7 +593,7 @@ function parse_telemetry_packet(payload: string): TelemetryInfo
         }
     else
         {
-        info$error = fmt("Unknown telemetry: StreamID=0x%04X", stream_id);
+        info$error = fmt("Unknown telemetry: StreamID=0x%04x", stream_id);
         info$target = "UNKNOWN";
         info$packet_name = "UNKNOWN";
         }
