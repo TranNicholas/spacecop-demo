@@ -14,15 +14,17 @@ VERTICAL
 
   SPACER 0 10
 
-  LABEL "IDS Alert Log (newest at bottom):"
+  LABEL "Latest IDS report:"
     SETTING RAW font-size 22px
     SETTING TEXTCOLOR white
     SETTING BACKCOLOR 30 30 30
     SETTING WIDTH 100%
 
-  # Appending, scrolling history of every IDS_MSG (see src/widgets/IdslogWidget).
-  # 4th param (1000) = max lines retained.
-  WIDGET IDSLOG SPACECOP SPACECOP_REPORT_TLM IDS_MSG 1000
+  # Stock widget: shows only the latest downlinked IDS report. The supplied
+  # scrolling log does not work on COSMOS 7.2.1: "WIDGET IDSLOG" requests a
+  # nonexistent WidgetWidget, and IdslogWidget mixes in only the base Widget,
+  # so even as "IDSLOG ..." it never subscribes to IDS_MSG.
+  TEXTBOX SPACECOP SPACECOP_REPORT_TLM IDS_MSG 1000 700 FORMATTED
     SETTING RAW width 1000px
     SETTING RAW height 750px
 END
