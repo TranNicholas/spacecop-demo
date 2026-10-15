@@ -3,6 +3,17 @@
 #include "cfe_tbl_filedef.h"
 #include "spacecop_table_defs.h"
 
+/* Rules served by the syscall monitor (call_index 4) need aerospace.ko. When
+ * any of them is enabled, Init_Syscall() runs insmod and calls exit() if it
+ * fails, terminating the whole cFE process. A build without the module (the
+ * x86 Docker SIL) defines SPACECOP_SIL_NO_KERNEL_MODULE to disable exactly
+ * those rules. The default build is unchanged. */
+#ifdef SPACECOP_SIL_NO_KERNEL_MODULE
+#define SPACECOP_KERNEL_MODULE_RULE 0
+#else
+#define SPACECOP_KERNEL_MODULE_RULE 1
+#endif
+
 /*
  * SpaceCop Rule Table - PISAT PORT
  * --------------------------------
@@ -81,7 +92,7 @@ RuleTable SPACECOP_RuleTable =
        *      STIX Pattern: [process:image_ref.name = 'mkfifo' AND process:x_execution_time = 'unexpected_time']
        */
        {
-              .enabled = 1,
+              .enabled = SPACECOP_KERNEL_MODULE_RULE,
               .iob_id = "CSNE-17", 
               .mode = RULE_ONEANDDONE,
               .call_index = 4,
@@ -92,7 +103,7 @@ RuleTable SPACECOP_RuleTable =
        *      Tolerance: 10 times before reporting
        */
        {
-              .enabled = 1,
+              .enabled = SPACECOP_KERNEL_MODULE_RULE,
               .iob_id = "SIUU-15", 
               .mode = RULE_ONEANDDONE,
               .call_index = 4,     
@@ -103,7 +114,7 @@ RuleTable SPACECOP_RuleTable =
        *      STIX Pattern: [process:image_ref.name = 'insmod' OR ONEANDDONE:name = 'INIT_MODULE']
        */
        {
-              .enabled = 1,
+              .enabled = SPACECOP_KERNEL_MODULE_RULE,
               .iob_id = "SIUU-12", 
               .mode = RULE_ONEANDDONE,
               .call_index = 4,     
@@ -113,7 +124,7 @@ RuleTable SPACECOP_RuleTable =
        *      STIX Pattern: [process:image_ref.name = 'renice' OR process:image_ref.name = 'setpriority' AND process:x_execution_time != 'authorized_period']
        */
        {
-              .enabled = 1,
+              .enabled = SPACECOP_KERNEL_MODULE_RULE,
               .iob_id = "SIUU-10", 
               .mode = RULE_ONEANDDONE,
               .call_index = 4,     
@@ -123,7 +134,7 @@ RuleTable SPACECOP_RuleTable =
        *      STIX Pattern: [process:image_ref.name = 'grep' OR process:image_ref.name = 'ps' OR process:image_ref.name = 'awk' OR process:image_ref.name = 'chmod' OR process:image_ref.name = 'dd' OR process:image_ref.name = 'cat' OR process:image_ref.name = 'sh' AND process:x_execution_time != 'authorized_time']
        */
        {
-              .enabled = 1,
+              .enabled = SPACECOP_KERNEL_MODULE_RULE,
               .iob_id = "SIUU-16", 
               .mode = RULE_ONEANDDONE,
               .call_index = 4,     
@@ -133,7 +144,7 @@ RuleTable SPACECOP_RuleTable =
        *      STIX Pattern: [process:image_ref.name = 'open' AND file:path LIKE '/dev/mtd%' AND file:access_time != 'authorized_access_time']
        */
        {
-              .enabled = 1,
+              .enabled = SPACECOP_KERNEL_MODULE_RULE,
               .iob_id = "MIRE-17", 
               .mode = RULE_ONEANDDONE,
               .call_index = 4,     
